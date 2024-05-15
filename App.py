@@ -54,11 +54,10 @@ fig = px.scatter(filtered_data, x='Discount', y='Sales', color='Category', title
                  template='plotly_dark')  # Change the template for a dark theme
 st.plotly_chart(fig)
 
-# Total Sales by Category (Treemap)
+# Total Sales by Category (Pie Chart)
 st.header('Total Sales by Category')
 TotalSalesCategory = filtered_data.groupby('Category')['Sales'].sum().reset_index()
-fig = px.treemap(TotalSalesCategory, path=['Category'], values='Sales', title='Total Sales by Category',
-                 color='Sales', color_continuous_scale='viridis')
+fig = px.pie(TotalSalesCategory, values='Sales', names='Category', title='Total Sales by Category')
 st.plotly_chart(fig)
 
 # Top 5 Products by Sales
@@ -87,6 +86,9 @@ fig = px.bar(ProfitMarketSegment, x='Market', y='Profit', color='Segment', title
              labels={'Profit': 'Total Profit ($)'},
              barmode='group', template='plotly_dark')  # Change the template for a dark theme
 st.plotly_chart(fig)
+
+
+
 
 
 
