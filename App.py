@@ -23,17 +23,14 @@ if selectedsegment != 'All':
 if selectedcountry != 'All':
     filtered_data = filtered_data[filtered_data["Country"] == selectedcountry]
 
-# Organize the visualizations
-st.title('Sales and Profit Analysis')
+# Page Title
+st.markdown("<h1 style='text-align: center; color: purple; text-shadow: 2px 2px 4px #000000;'>Minger</h1>", unsafe_allow_html=True)
+st.markdown("<h2 style='text-align: center; color: purple;'>Sales and Performance Dashboard</h2>", unsafe_allow_html=True)
 
-# Visualization 01 & 02- Sum of sales and profit
+# Total Sales and Profit Metrics
+st.header('Total Sales and Profit')
 selected_year = st.selectbox("Select Year", ['All'] + list(df["Order Date"].dt.year.unique()))
-
-# setting up filter so you could see sales and profit for each year
-if selected_year != 'All':
-    filtered_df = df[df["Order Date"].dt.year == selected_year]
-else:
-    filtered_df = df
+filtered_df = df[df["Order Date"].dt.year == selected_year] if selected_year != 'All' else df
 
 total_sales = filtered_df['Sales'].sum()
 total_profit = filtered_df['Profit'].sum()
@@ -71,7 +68,6 @@ st.plotly_chart(fig)
 
 # Sales Trends Over Time (Line Chart)
 st.header('Sales Trends Over Time')
-filtered_data['Order Date'] = pd.to_datetime(filtered_data['Order Date'])
 SalesTrends = filtered_data.groupby(filtered_data['Order Date'].dt.to_period("M"))['Sales'].sum().reset_index()
 SalesTrends['Order Date'] = SalesTrends['Order Date'].astype(str)  # Convert period index to string
 fig = px.line(SalesTrends, x='Order Date', y='Sales', title='Sales Trends Over Time',
@@ -86,6 +82,10 @@ fig = px.bar(ProfitMarketSegment, x='Market', y='Profit', color='Segment', title
              labels={'Profit': 'Total Profit ($)'},
              barmode='group', template='plotly_dark')  # Change the template for a dark theme
 st.plotly_chart(fig)
+
+
+
+
 
 
 
